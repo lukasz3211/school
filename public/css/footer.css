@@ -1,0 +1,23 @@
+footer {
+    background-color: rgba(161, 168, 120, 0.44);
+    color: mintcream;
+    text-align: center;
+    padding: 12px 12px 12px 12px;
+    border-top-style: solid;
+    position: fixed;
+    bottom:0;
+    left:0;
+    right:0;
+    display:flex;
+}
+footer section {
+    flex: 1;
+}
+
+/* --------- text alignment ------- */
+.middle {
+    text-align: center;
+}
+.right {
+    text-align: right;
+}

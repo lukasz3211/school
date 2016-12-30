@@ -1,0 +1,11 @@
+header {
+    background-color: rgba(161, 168, 120, 0.44);
+    color: mintcream;
+    text-align: center;
+    padding: 12px 12px 12px 12px;
+    border-top-style: solid;
+    bottom:0;
+    left:0;
+    right:0;
+    font-size: large;
+}
