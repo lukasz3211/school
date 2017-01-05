@@ -11,8 +11,31 @@
     <title>Ghostbusters Shop -<?= $pageTitle ?></title>
 </head>
 <header>
+    <?php
+    //----------------------------
+   //if($isLoggedIn):
+     //   require_once __DIR__ . '/admin/_links.php';
+    //endif;
+    //----------------------------
+    ?>
     <section class="right">
+        <?php
+        if(($isLoggedIn)&&( $username==='admin')):
+            require_once __DIR__ . '/admin/_links.php';
+        endif;
+        //----------------------------
+        if($isLoggedIn):
+        ?>
+        you are logged in as:<strong><?= $username ?></strong>
+        <br>
+        <a href="/public/index.php?action=logout">(logout)</a>
+        <?php
+        else:
+         ?>
         <a href="/public/index.php?action=login">login</a>
+        <?php
+        endif;
+        ?>
     </section>
     <img src="/public/images/logo.png" alt="logo">
     <section class="right">

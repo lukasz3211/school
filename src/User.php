@@ -1,7 +1,11 @@
 <?php
 namespace itb;
+use Mattsmithdev\PdoCrud\DatabaseTable;
+use Mattsmithdev\PdoCrud\DatabaseManager;
 
-class User
+
+class User extends DatabaseTable
+
 {
     const ROLE_USER = 1;
     const ROLE_ADMIN = 2;
@@ -77,7 +81,38 @@ class User
     {
         $this->role = $role;
     }
+    public static function canFindMatchingUsernameAndPassword($username, $password)
+    {
+        $user = User::getOneByUsername($username);
 
+        // if no record has this username, return FALSE
+        if(null == $user){
+            return false;
+        }
 
+        // hashed correct password
+        $hashedStoredPassword = $user->getPassword();
+
+        // return whether or not hash of input password matches stored hash
+        return password_verify($password, $hashedStoredPassword);
+
+    }
+    public static function getOneByUsername($username)
+    {
+        $db = new DatabaseManager();
+        $connection = $db->getDbh();
+
+        $sql = 'SELECT * FROM users WHERE username=:username';
+        $statement = $connection->prepare($sql);
+        $statement->bindParam(':username', $username, \PDO::PARAM_STR);
+        $statement->setFetchMode(\PDO::FETCH_CLASS, __CLASS__);
+        $statement->execute();
+
+        if ($object = $statement->fetch()) {
+            return $object;
+        } else {
+            return null;
+        }
+    }
 
 }

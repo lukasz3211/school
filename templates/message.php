@@ -1,4 +1,5 @@
 <?php
+$username= $_SESSION['user'];
 require_once __DIR__ . '/_header.php';
 ?>
 

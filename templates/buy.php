@@ -29,8 +29,9 @@ $products = get_all_products($connection);
     </style>
 </head><body>
 
-<table>
+<table align="center">
     <tr>
+        <th>Product Detail</th>
         <th>Product ID</th>
         <th>Product Code</th>
         <th>Product Name</th>
@@ -42,6 +43,11 @@ $products = get_all_products($connection);
     <?php
     foreach ($products as $item){
         print '<tr>';
+        print '    <td>';
+        ?>
+        <a href="index.php?action=showProduct&product_id=<?= $item['product_id'] ?>">(detail page)</a>
+        <?php
+        print '   </td>';
         print '    <td>';
         print $item['product_id'];
         print '   </td>';
@@ -55,7 +61,12 @@ $products = get_all_products($connection);
         print $item['product_desc'];
         print '   </td>';
         print '    <td>';
-        print $item['product_img_name'];
+        //print '<img src="product_img_name">';
+        //echo $item['product_img_name'];
+        $url = $item['product_img_name'];
+        ?>
+        <img src="<?= $url ?>" " width="200px" height="auto"/>
+        <?php
         print '   </td>';
         print '   <td>';
         print $item['price'];

@@ -2,57 +2,73 @@
 namespace itb;
 class MainController
 {
+    private $loginController;
 
-
+    public function __construct()
+    {
+    $this->loginController=new LoginController();
+    }
     function aboutus_action()
     {
+        $isLoggedIn = $this->loginController->isLoggedInFromSession();
+        $username = $this->loginController->usernameFromSession();
         require_once __DIR__ . '/../templates/aboutus.php';
     }
 
     function contact_action()
     {
+        $isLoggedIn = $this->loginController->isLoggedInFromSession();
+        $username = $this->loginController->usernameFromSession();
         require_once __DIR__ . '/../templates/contact.php';
     }
 
     function buy_action()
     {
+        $isLoggedIn = $this->loginController->isLoggedInFromSession();
+        $username = $this->loginController->usernameFromSession();
         require_once __DIR__ . '/../templates/buy.php';
     }
 
     function sitemap_action()
     {
+        $isLoggedIn = $this->loginController->isLoggedInFromSession();
+        $username = $this->loginController->usernameFromSession();
         require_once __DIR__ . '/../templates/sitemap.php';
     }
 
     function index_action()
     {
+        $isLoggedIn = $this->loginController->isLoggedInFromSession();
+        $username = $this->loginController->usernameFromSession();
         require_once __DIR__ . '/../templates/index.php';
     }
 
     function login_action()
     {
+        $isLoggedIn = $this->loginController->isLoggedInFromSession();
+        $username = $this->loginController->usernameFromSession();
         require_once __DIR__ . '/../templates/loginForm.php';
 
     }
-
-    function processLoginAction()
+    function show_one_product_action()
     {
-        // default is bad login
-        $isLoggedIn = false;
+        $isLoggedIn = $this->loginController->isLoggedInFromSession();
+        $username = $this->loginController->usernameFromSession();
+        $connection = get_connection();
 
-        $username = filter_input(INPUT_POST, 'username', FILTER_SANITIZE_STRING);
-        $password = filter_input(INPUT_POST, 'password', FILTER_SANITIZE_STRING);
+        $id = filter_input(INPUT_GET, 'product_id', FILTER_SANITIZE_NUMBER_INT);
+        $product = get_one_product_by_id($connection, $id);
 
-        $userRepository = new UserRepository();
-        $isLoggedIn = $userRepository->canFindMatchingUsernameAndPassword($username, $password);
+        if(null == $product){
+            $message = 'sorry, no product with id = ' . $id . ' could be retrieved from the database';
 
-        // action depending on login success
-        if ($isLoggedIn) {
-            // success - found a matching username and password
-            require_once __DIR__ . '/../templates/loginSuccess.php';
-        } else {
-            $message = 'bad username or password, please try again';
+            // output the detail of product in HTML table
             require_once __DIR__ . '/../templates/message.php';
+        } else {
+            // output the detail of product in HTML table
+            require_once __DIR__ . '/../templates/detail.php';
         }
     }
+
+
 }
